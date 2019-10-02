@@ -20,6 +20,7 @@ from src.utils import bool_flag, initialize_exp, set_sampling_probs, shuf_order
 from src.model import check_model_params, build_model
 from src.trainer import SingleTrainer, EncDecTrainer
 from src.evaluation.evaluator import SingleEvaluator, EncDecEvaluator
+import src.utils
 
 import apex
 from src.fp16 import network_to_half
@@ -350,6 +351,7 @@ if __name__ == '__main__':
         params.device = torch.device('cuda')
     else:
         params.device = torch.device('cpu')
+        src.utils.CUDA_ACTIVATED = False
 
     # check parameters
     check_data_params(params)
