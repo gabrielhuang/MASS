@@ -237,8 +237,8 @@ def main(params):
         return state_dict
 
     for reloaded in models_reloaded:
-        encoder = TransformerModel(model_params, dico, is_encoder=True, with_output=True).cuda().eval()
-        decoder = TransformerModel(model_params, dico, is_encoder=False, with_output=True).cuda().eval()
+        encoder = TransformerModel(model_params, dico, is_encoder=True, with_output=True).to(params.device).eval()
+        decoder = TransformerModel(model_params, dico, is_encoder=False, with_output=True).to(params.device).eval()
         encoder.load_state_dict(package_module(reloaded['encoder']))
         decoder.load_state_dict(package_module(reloaded['decoder']))
 
@@ -276,13 +276,13 @@ def main(params):
         # encode source batch and translate it
         encodeds = []
         for encoder in encoders:
-            encoded = encoder('fwd', x=batch.cuda(), lengths=lengths.cuda(), langs=langs.cuda(), causal=False)
+            encoded = encoder('fwd', x=batch.to(params.device), lengths=lengths.to(params.device), langs=langs.to(params.device), causal=False)
             encoded = encoded.transpose(0, 1)
             encodeds.append(encoded)
 
             assert encoded.size(0) == lengths.size(0)
             
-        decoded, dec_lengths = generate_beam(decoders, encodeds, lengths.cuda(), params.tgt_id, 
+        decoded, dec_lengths = generate_beam(decoders, encodeds, lengths.to(params.device), params.tgt_id,
                       beam_size=params.beam,
                       length_penalty=params.length_penalty,
                       early_stopping=False,

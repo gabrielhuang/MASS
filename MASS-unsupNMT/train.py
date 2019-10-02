@@ -216,6 +216,8 @@ def get_parser():
                         help="Multi-GPU - Local rank")
     parser.add_argument("--master_port", type=int, default=-1,
                         help="Master port (for multi-node SLURM jobs)")
+    parser.add_argument("--cuda", type=int, default=1,
+                        help="Use cuda")
 
     return parser
 
@@ -342,6 +344,12 @@ if __name__ == '__main__':
     # generate parser / parse parameters
     parser = get_parser()
     params = parser.parse_args()
+
+    # cuda
+    if params.cuda:
+        params.device = torch.device('cuda')
+    else:
+        params.device = torch.device('cpu')
 
     # check parameters
     check_data_params(params)

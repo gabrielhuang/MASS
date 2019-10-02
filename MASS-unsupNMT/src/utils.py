@@ -226,11 +226,15 @@ def get_optimizer(parameters, s):
     return optim_fn(parameters, **optim_params)
 
 
+CUDA_ACTIVATED = True
 def to_cuda(*args):
     """
     Move tensors to CUDA.
     """
-    return [None if x is None else x.cuda() for x in args]
+    if CUDA_ACTIVATED:
+        return [None if x is None else x.cuda() for x in args]
+    else:
+        return [None if x is None else x for x in args]
 
 
 def restore_segmentation(path):
