@@ -348,7 +348,7 @@ if __name__ == '__main__':
 
     # cuda
     if params.cuda:
-        params.device = torch.cuda.device(params.local_rank)
+        params.device = torch.device('cuda', params.local_rank)
     else:
         params.device = torch.device('cpu')
         src.utils.CUDA_ACTIVATED = False
