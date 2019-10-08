@@ -347,8 +347,10 @@ if __name__ == '__main__':
     params = parser.parse_args()
 
     # cuda
-    if params.cuda:
+    if params.cuda and params.local_rank != -1:
         params.device = torch.device('cuda', params.local_rank)
+    elif params.cuda:
+        params.device = torch.device('cuda')
     else:
         params.device = torch.device('cpu')
         src.utils.CUDA_ACTIVATED = False
