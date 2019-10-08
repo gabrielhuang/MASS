@@ -121,8 +121,6 @@ if [ ! -f "$BPE_CODES" ] && [ -f "$RELOAD_CODES" ]; then
   cp -v $RELOAD_CODES $BPE_CODES
 fi
 
-echo "reload codes $RELOAD_CODES bpe codes $BPE_CODES "
-
 # learn BPE codes
 if [ ! -f "$BPE_CODES" ]; then
   echo "Learning BPE codes..."
