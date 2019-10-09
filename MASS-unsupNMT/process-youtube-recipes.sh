@@ -15,8 +15,8 @@ N_MONO=5000000  # number of monolingual sentences for each language
 CODES=60000     # number of BPE codes
 N_THREADS=16    # number of threads in data preprocessing
 
-SRC="youtube8m"
-TGT="recipe1m"
+SRC="asr"
+TGT="cap"
 
 
 #
@@ -47,9 +47,11 @@ set -- "${POSITIONAL[@]}"
 #
 if [ "$SRC" == "" ]; then echo "--src not provided"; exit; fi
 if [ "$TGT" == "" ]; then echo "--tgt not provided"; exit; fi
-if [ "$SRC" != "youtube8m" -a "$SRC" != "recipe1m" ]; then echo "unknown source language"; exit; fi
-if [ "$TGT" != "youtube8m" -a "$TGT" != "recipe1m" ]; then echo "unknown target language"; exit; fi
+if [ "$SRC" != "asr" -a "$SRC" != "cap" ]; then echo "unknown source language"; exit; fi
+if [ "$TGT" != "asr" -a "$TGT" != "cap" ]; then echo "unknown target language"; exit; fi
 if [ "$SRC" == "$TGT" ]; then echo "source and target cannot be identical"; exit; fi
+# This requirement cannot be removed as the code depends on it
+if [ "$SRC" \> "$TGT" ]; then echo "please ensure SRC < TGT"; exit; fi
 if [ "$RELOAD_CODES" != "" ] && [ ! -f "$RELOAD_CODES" ]; then echo "cannot locate BPE codes"; exit; fi
 if [ "$RELOAD_VOCAB" != "" ] && [ ! -f "$RELOAD_VOCAB" ]; then echo "cannot locate vocabulary"; exit; fi
 if [ "$RELOAD_CODES" == "" -a "$RELOAD_VOCAB" != "" -o "$RELOAD_CODES" != "" -a "$RELOAD_VOCAB" == "" ]; then echo "BPE codes should be provided if and only if vocabulary is also provided"; exit; fi
@@ -108,6 +110,8 @@ PARA_TGT_TEST_BPE=$PROC_PATH/test.$SRC-$TGT.$TGT
 
 ######### Monolingual corpuses ###################
 
+mkdir -p $MONO_PATH/$SRC
+mkdir -p $MONO_PATH/$TGT
 
 echo "Copying pretokenized files to .tok"
 cp "$MONO_PATH/youtube8m/YouTube8M_asr.txt" $SRC_TOK
