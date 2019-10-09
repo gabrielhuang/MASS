@@ -155,7 +155,7 @@ class Dataset(object):
         indices = indices[self.lengths[indices] <= max_len]
         self.pos = self.pos[indices]
         self.lengths = self.pos[:, 1] - self.pos[:, 0]
-        logger.info("Removed %i too long sentences." % (init_size - len(indices)))
+        logger.info("Removed {} too long sentences (longer than {})".format(init_size - len(indices), max_len))
         self.check()
 
     def remove_short_sentences(self, min_len):
@@ -167,7 +167,7 @@ class Dataset(object):
         indices = indices[self.lengths[indices] >= min_len]
         self.pos = self.pos[indices]
         self.lengths = self.pos[:, 1] - self.pos[:, 0]
-        logger.info("Removed %i too short sentences" % (init_size - len(indices)))
+        logger.info("Removed {} too short sentences (shorter than {})".format(init_size - len(indices), min_len))
         self.check()
 
     def select_data(self, a, b):
@@ -328,7 +328,7 @@ class ParallelDataset(Dataset):
         self.pos2 = self.pos2[indices]
         self.lengths1 = self.pos1[:, 1] - self.pos1[:, 0]
         self.lengths2 = self.pos2[:, 1] - self.pos2[:, 0]
-        logger.info("Removed %i too long sentences." % (init_size - len(indices)))
+        logger.info("Removed {} too long sentences (longer than {})".format(init_size - len(indices), max_len))
         self.check()
 
     def select_data(self, a, b):

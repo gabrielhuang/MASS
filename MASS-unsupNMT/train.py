@@ -125,6 +125,11 @@ def get_parser():
                         help="Minimum length of sentences (after BPE)")
     parser.add_argument("--max_len", type=int, default=100,
                         help="Maximum length of sentences (after BPE)")
+    parser.add_argument("--min_eval_len", type=int, default=0,
+                        help="Minimum length of sentences for EVALUATION (after BPE)")
+    parser.add_argument("--max_eval_len", type=int, default=510,
+                        help="Maximum length of sentences for EVALUATION (after BPE)"\
+                        "This ensures that position embeddings are never exceeded")
     parser.add_argument("--group_by_size", type=bool_flag, default=True,
                         help="Sort sentences by size during the training")
     parser.add_argument("--batch_size", type=int, default=32,
