@@ -1,5 +1,7 @@
 #!/bin/bash
 
+MODEL=${1}  # pretrained/mass_enfr_1024.pth or dumped/unsupMT_enfr/mass
+
 python train.py \
 	--exp_name unsupMT_enfr                              \
 	--data_path ./data/processed/en-fr/                  \
@@ -20,7 +22,7 @@ python train.py \
 	--word_mass 0.5                                      \
 	--min_len 5                                        \
 	--exp_id mass_eval   \
-	--reload_model pretrained/mass_enfr_1024.pth,pretrained/mass_enfr_1024.pth  \
+	--reload_model $MODEL,$MODEL  \
 	--eval_only true \
 	--eval_bleu true
 

@@ -21,7 +21,7 @@ python -m torch.distributed.launch --nnodes=1 --nproc_per_node=$NGPU train.py \
 	--attention_dropout 0.1                              \
 	--gelu_activation true                               \
 	--tokens_per_batch 3000                              \
-	--optimizer adam_inverse_sqrt,beta1=0.9,beta2=0.98,lr=0.00028 \
+	--optimizer adam_inverse_sqrt,beta1=0.9,beta2=0.98,lr=0.0001 \
 	--epoch_size 200000                                  \
 	--max_epoch 100                                      \
 	--eval_bleu true                                     \
