@@ -204,11 +204,12 @@ $FASTBPE applybpe $PARA_TGT_TEST_BPE  $PARA_TGT_TEST  $BPE_CODES $TGT_VOCAB
 
 #
 # Link monolingual validation and test data to parallel data
+# Actuall just copy (avoid problems with FTP clients that don't see symbolic links)
 #
-ln -sf $PARA_SRC_VALID_BPE.pth $SRC_VALID_BPE.pth
-ln -sf $PARA_TGT_VALID_BPE.pth $TGT_VALID_BPE.pth
-ln -sf $PARA_SRC_TEST_BPE.pth  $SRC_TEST_BPE.pth
-ln -sf $PARA_TGT_TEST_BPE.pth  $TGT_TEST_BPE.pth
+cp $PARA_SRC_VALID_BPE.pth $SRC_VALID_BPE.pth
+cp $PARA_TGT_VALID_BPE.pth $TGT_VALID_BPE.pth
+cp $PARA_SRC_TEST_BPE.pth  $SRC_TEST_BPE.pth
+cp $PARA_TGT_TEST_BPE.pth  $TGT_TEST_BPE.pth
 
 echo "Binarizing data..."
 rm -f $PARA_SRC_VALID_BPE.pth $PARA_TGT_VALID_BPE.pth $PARA_SRC_TEST_BPE.pth $PARA_TGT_TEST_BPE.pth
